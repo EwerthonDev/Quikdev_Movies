@@ -15,8 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => ['auth:sanctum', 'verified']], function(){
     Route::get('/week/movies', [MoviesController::class, 'weekTrendingMovies']);
     //Route::get('/movies/genres', [MoviesController::class, 'genres']);
     Route::get('/movie/detail', [MoviesController::class, 'movieDetail']);
-});
