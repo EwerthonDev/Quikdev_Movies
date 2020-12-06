@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\MoviesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => ['auth:sanctum', 'verified']], function(){
+    Route::get('/movies', [MoviesController::class, 'trendingMovies']);
+    Route::get('/movies/genres', [MoviesController::class, 'genres']);
+    Route::get('/movie/detail', [MoviesController::class, 'movieDetail']);
 });
