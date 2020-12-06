@@ -1,7 +1,7 @@
 <template>
     <div class="bg-gray-700">
         <header-movies></header-movies>
-        <div class="container mx-auto p-5">
+        <div class="container mx-auto p-5" style="min-height:100vh">
             <div class="my-8">
                 <a class="p-3 rounded border border-green-500 text-xl text-green-500" href="/movies">Voltar</a>
             </div>
@@ -59,7 +59,6 @@ components: {
                 var releaseDateArray = this.movieInfo.release_date.split("-");
                 this.movieInfo.release_date = releaseDateArray[2]+"/"+releaseDateArray[1]+"/"+releaseDateArray[0];
                 // release date format - end
-            
         });
     }
 }

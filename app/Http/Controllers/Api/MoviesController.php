@@ -9,29 +9,39 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MoviesController extends Controller
 {
-    public function trendingMovies()
+    public function weekTrendingMovies()
     {   
-        $trendingMovies = Http::get('https://api.themoviedb.org/3/trending/movie/week?api_key=4ec327e462149c3710d63be84b81cf4f&language=pt-BR')->json()['results'];
+        $weekTrendingMovies = Http::get('https://api.themoviedb.org/3/trending/movie/week?api_key=4ec327e462149c3710d63be84b81cf4f&language=pt-BR')->json()['results'];
         
         return response()->json([
-            'trendingMovies' => $trendingMovies
+            'weekTrendingMovies' => $weekTrendingMovies
         ],Response::HTTP_OK);  
     }
 
-    /*public function genres()
-    {
-        $movieGenres = Http::get('https://api.themoviedb.org/3/genre/movie/list?api_key=4ec327e462149c3710d63be84b81cf4f&language=pt-BR')->json()['genres'];
-        
-        
-        $genres = collect($movieGenres)->mapWithKeys(function($genre) {
-            return [$genre['id'] => $genre['name']];
-        });
+   /*
+    *Tentei fazer o match dos ids de genero de cada filme com a lista de generos via javascript com map e filter, porém não consegui 
+    *A idea passou a fazer isso no backend, mas também acabei não atingindo o meu objetivo de retornar algo parecido com isso:
 
+    {[
+        [0] => [
+            'movie_genre_id' => x,
+            'movie_genre_name' => y,
+        ],
+        ...
+    ]}
+    
+    Vai ficar como uma feature pro futuro :/
+
+
+    public function genres()
+    {
+        $genres = Http::get('https://api.themoviedb.org/3/genre/movie/list?api_key=4ec327e462149c3710d63be84b81cf4f&language=pt-BR')->json()['genres'];
+        
         return response()->json([
             'genres' => $genres,
         ],Response::HTTP_OK);  
-    }
-    */
+    }*/
+    
     public function movieDetail(Request $request)
     {   
         $movieId = $request->session()->get('movieId');

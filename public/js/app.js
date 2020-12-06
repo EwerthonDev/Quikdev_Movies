@@ -3624,15 +3624,16 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      movies: [],
-      search: ''
+      weekTrendingMovies: [],
+      search: '' //genres: []
+
     };
   },
   computed: {
     filteredMovies: function filteredMovies() {
       var _this = this;
 
-      return this.movies.filter(function (movie) {
+      return this.weekTrendingMovies.filter(function (movie) {
         return movie.original_title.match(_this.search);
       });
     }
@@ -3647,25 +3648,24 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this2 = this;
 
-    axios.get('/api/movies').then(function (response) {
-      _this2.movies = response.data.trendingMovies;
+    axios.get('/api/week/movies').then(function (response) {
+      _this2.weekTrendingMovies = response.data.weekTrendingMovies;
 
-      for (var m = 0; m < _this2.movies.length; m++) {
+      for (var m = 0; m < _this2.weekTrendingMovies.length; m++) {
         // poster url
-        _this2.movies[m].poster_path = "https://image.tmdb.org/t/p/w500" + _this2.movies[m].poster_path; // poster url - end
+        _this2.weekTrendingMovies[m].poster_path = "https://image.tmdb.org/t/p/w500" + _this2.weekTrendingMovies[m].poster_path; // poster url - end
         // release date format
 
-        var releaseDateArray = _this2.movies[m].release_date.split("-");
+        var releaseDateArray = _this2.weekTrendingMovies[m].release_date.split("-");
 
-        _this2.movies[m].release_date = releaseDateArray[2] + "/" + releaseDateArray[1] + "/" + releaseDateArray[0]; // release date format - end
+        _this2.weekTrendingMovies[m].release_date = releaseDateArray[2] + "/" + releaseDateArray[1] + "/" + releaseDateArray[0]; // release date format - end
       }
 
-      console.log(_this2.movies);
+      console.log(response);
     });
     /*axios.get('/api/movies/genres').then(response => {
-        console.log(response);
         this.genres = response.data.genres;
-        console.log(this.genres);
+          Explicação no movies controller...
     });*/
   }
 });
@@ -47848,78 +47848,91 @@ var render = function() {
     [
       _c("header-movies"),
       _vm._v(" "),
-      _c("div", { staticClass: "container mx-auto p-5" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass:
-              "flex justify-between items-center border-b border-white pb-6"
-          },
-          [
-            _c("div", { staticClass: "mr-5" }, [
-              _c("img", {
-                staticClass:
-                  "transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105 shadow-xl mb-1 mr-1",
-                attrs: {
-                  src: _vm.movieInfo.poster_path,
-                  height: "750px",
-                  width: "500px"
-                }
-              }),
-              _c("br")
+      _c(
+        "div",
+        {
+          staticClass: "container mx-auto p-5",
+          staticStyle: { "min-height": "100vh" }
+        },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass:
+                "flex justify-between items-center border-b border-white pb-6"
+            },
+            [
+              _c("div", { staticClass: "mr-5" }, [
+                _c("img", {
+                  staticClass:
+                    "transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105 shadow-xl mb-1 mr-1",
+                  attrs: {
+                    src: _vm.movieInfo.poster_path,
+                    height: "750px",
+                    width: "500px"
+                  }
+                }),
+                _c("br")
+              ]),
+              _vm._v(" "),
+              _c("div", {}, [
+                _c("h1", { staticClass: "text-4xl mb-5 text-white" }, [
+                  _vm._v(_vm._s(_vm.movieInfo.original_title))
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "text-gray-200 text-3xl mb-3" }, [
+                  _vm._v(
+                    "Data de Lançamento: " + _vm._s(_vm.movieInfo.release_date)
+                  )
+                ]),
+                _c("br"),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", { staticClass: "text-gray-200 text-3xl mb-3" }, [
+                  _vm._v(
+                    "Tagline: " +
+                      _vm._s(
+                        false
+                          ? undefined
+                          : "Ainda não tem tagline..."
+                      )
+                  )
+                ]),
+                _c("br"),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", { staticClass: "text-gray-200 text-3xl mb-3" }, [
+                  _vm._v(
+                    "Ratings: " + _vm._s(_vm.movieInfo.vote_average) + " ⭐"
+                  )
+                ]),
+                _c("br"),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", { staticClass: "text-gray-200 text-3xl mb-3" }, [
+                  _vm._v(
+                    "Contagem de Votos: " + _vm._s(_vm.movieInfo.vote_count)
+                  )
+                ]),
+                _c("br"),
+                _c("br")
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "my-6" }, [
+            _c("h2", { staticClass: "text-4xl text-white mb-4" }, [
+              _vm._v("Overview")
             ]),
             _vm._v(" "),
-            _c("div", {}, [
-              _c("h1", { staticClass: "text-4xl mb-5 text-white" }, [
-                _vm._v(_vm._s(_vm.movieInfo.original_title))
-              ]),
-              _vm._v(" "),
-              _c("span", { staticClass: "text-gray-200 text-3xl mb-3" }, [
-                _vm._v(
-                  "Data de Lançamento: " + _vm._s(_vm.movieInfo.release_date)
-                )
-              ]),
-              _c("br"),
-              _c("br"),
-              _vm._v(" "),
-              _c("span", { staticClass: "text-gray-200 text-3xl mb-3" }, [
-                _vm._v(
-                  "Tagline: " +
-                    _vm._s(
-                      false ? undefined : "Ainda não tem tagline..."
-                    )
-                )
-              ]),
-              _c("br"),
-              _c("br"),
-              _vm._v(" "),
-              _c("span", { staticClass: "text-gray-200 text-3xl mb-3" }, [
-                _vm._v("Ratings: " + _vm._s(_vm.movieInfo.vote_average) + " ⭐")
-              ]),
-              _c("br"),
-              _c("br"),
-              _vm._v(" "),
-              _c("span", { staticClass: "text-gray-200 text-3xl mb-3" }, [
-                _vm._v("Contagem de Votos: " + _vm._s(_vm.movieInfo.vote_count))
-              ]),
-              _c("br"),
-              _c("br")
+            _c("p", { staticClass: "font-mono text-3xl text-white mt-2" }, [
+              _vm._v(_vm._s(_vm.movieInfo.overview))
             ])
-          ]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "my-6" }, [
-          _c("h2", { staticClass: "text-4xl text-white mb-4" }, [
-            _vm._v("Overview")
-          ]),
-          _vm._v(" "),
-          _c("p", { staticClass: "font-mono text-3xl text-white mt-2" }, [
-            _vm._v(_vm._s(_vm.movieInfo.overview))
           ])
-        ])
-      ]),
+        ]
+      ),
       _vm._v(" "),
       _c("footer-movies")
     ],

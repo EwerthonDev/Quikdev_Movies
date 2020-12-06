@@ -42,13 +42,14 @@ components: {
     },
     data() {
         return {
-            movies: [],
+            weekTrendingMovies: [],
             search: '',
+            //genres: []
         }
     },
     computed: {
         filteredMovies: function() {
-            return this.movies.filter((movie) => {
+            return this.weekTrendingMovies.filter((movie) => {
                 return movie.original_title.match(this.search);
             })
         }
@@ -61,28 +62,28 @@ components: {
         }
     },
     mounted() {
-        axios.get('/api/movies').then(response => {
+        axios.get('/api/week/movies').then(response => {
             
-            this.movies = response.data.trendingMovies;
+            this.weekTrendingMovies = response.data.weekTrendingMovies;
 
-            for (var m = 0; m < this.movies.length; m++) {
+            for (var m = 0; m < this.weekTrendingMovies.length; m++) {
                 // poster url
-                this.movies[m].poster_path = "https://image.tmdb.org/t/p/w500" + this.movies[m].poster_path;
+                this.weekTrendingMovies[m].poster_path = "https://image.tmdb.org/t/p/w500" + this.weekTrendingMovies[m].poster_path;
                 // poster url - end
 
                 // release date format
-                var releaseDateArray = this.movies[m].release_date.split("-");
-                this.movies[m].release_date = releaseDateArray[2]+"/"+releaseDateArray[1]+"/"+releaseDateArray[0];
+                var releaseDateArray = this.weekTrendingMovies[m].release_date.split("-");
+                this.weekTrendingMovies[m].release_date = releaseDateArray[2]+"/"+releaseDateArray[1]+"/"+releaseDateArray[0];
                 // release date format - end
             }
 
-            console.log(this.movies);
+            console.log(response);
         });
 
         /*axios.get('/api/movies/genres').then(response => {
-            console.log(response);
             this.genres = response.data.genres;
-            console.log(this.genres);
+
+            Explicação no movies controller...
         });*/
     }
 }
