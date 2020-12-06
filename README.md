@@ -7,7 +7,6 @@ Feito com:
 - **Laravel 8**
 - **Vue.js**
 - **TailwindCSS**
-- **MySQL**
 
 
 ## Pre-Requisistos
